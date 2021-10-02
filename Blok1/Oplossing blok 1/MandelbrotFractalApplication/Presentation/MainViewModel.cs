@@ -2,9 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using MandelbrotFractalApplication.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -14,25 +11,27 @@ namespace MandelbrotFractalApplication.Presentation
 {
     public class MainViewModel : ObservableObject
     {
-
-        private const int maxRow = 800;
-        private const int maxColumn = 800;
-
         private readonly ILogic logic;
-
-        private readonly Color[] colors = new[] { Colors.Red, Colors.Blue, Colors.Green, Colors.Yellow };
 
         public WriteableBitmap BitmapDisplay { get; private set; }
 
-        public IRelayCommand DoWorkCommand { get; private set; }
+        public IRelayCommand CalculateCommand { get; private set; }
+
+        private const int Width = 800;
+        private const int Height = 800;
+
+        private const int MaxRow = 800;
+        private const int MaxColumn = 800;
+
+        private const double MaxValueExtent = 2.0;
 
         private bool working = false;
 
         public MainViewModel(ILogic logic)
         {
             this.logic = logic;
-            DoWorkCommand = new RelayCommand(async () => await DoWorkAsync(), () => !working);
-            CreateBitmap(maxColumn, maxRow);
+            CalculateCommand = new RelayCommand(async () => await MandelbrotAsync(), () => !working);
+            CreateBitmap(MaxColumn, MaxRow);
         }
 
         private void CreateBitmap(int width, int height)
@@ -44,34 +43,36 @@ namespace MandelbrotFractalApplication.Presentation
             OnPropertyChanged(nameof(BitmapDisplay));
         }
 
-        private async Task DoWorkAsync()
+        private async Task MandelbrotAsync()
         {
             working = true;
-            DoWorkCommand.NotifyCanExecuteChanged();
-            await ShowPixels();
+            CalculateCommand.NotifyCanExecuteChanged();
+            await GenerateBitmap();
             working = false;
-            DoWorkCommand.NotifyCanExecuteChanged();
+            CalculateCommand.NotifyCanExecuteChanged();
         }
 
-        private async Task ShowPixels()
+        private async Task GenerateBitmap()
         {
-            var pointList = await logic.GetPointsAsync(10000);
-            var color = colors[2];
-            int rowCount = maxRow;
-            var pixelBlock = new Color[maxColumn, rowCount];
-            foreach (var point in pointList)
+            var pixelBlock = new Color[Height, Width];
+            double scale = MaxValueExtent / Math.Min(Width, Height);
+
+            for (int x = 0; x < Width; x++)
             {
-                int column = (int)(maxColumn * point.X);
-                int row = (int)(rowCount * point.Y);
-                pixelBlock[column, row] = color;
-            }
+                for (int y = 0; y < Width; y++)
+                {
+                    double a = (Width / 2 - x) * scale;
+                    double b = (y - Height / 2) * scale;
+                    int mutations = logic.CalcMandelbrotDepth(new ComplexNumber(b, a), 250);
+
+                    pixelBlock[x, y] = GetColor(mutations);
+                };
+            };
             SetBlock(pixelBlock, 0, 0);
         }
 
         private void SetBlock(Color[,] colors, int startRow, int startColumn)
         {
-            // Set a specific block of the bitmap to the specified colors
-
             int numberOfRows = colors.GetLength(1);
             int numberOfColumns = colors.GetLength(0);
             uint[,] pixels = new uint[numberOfColumns, numberOfRows];
@@ -85,6 +86,18 @@ namespace MandelbrotFractalApplication.Presentation
             }
             var rectangle = new Int32Rect(0, 0, numberOfColumns, numberOfRows);
             BitmapDisplay.WritePixels(rectangle, pixels, BitmapDisplay.BackBufferStride, startColumn, startRow);
+        }
+
+        public static Color GetColor(int value)
+        {
+            if (value % 2 == 0)
+            {
+                return Color.FromRgb(0, 0, 0);
+            }
+            else
+            {
+                return Color.FromRgb(255, 255, 255);
+            }
         }
     }
 }

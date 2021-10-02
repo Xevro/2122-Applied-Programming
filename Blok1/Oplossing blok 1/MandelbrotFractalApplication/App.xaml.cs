@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows;
-using Microsoft.Extensions.DependencyInjection;
+﻿using MandelbrotFractalApplication.Models;
 using MandelbrotFractalApplication.Presentation;
-using MandelbrotFractalApplication.Models;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Windows;
 
 namespace MandelbrotFractalApplication
 {

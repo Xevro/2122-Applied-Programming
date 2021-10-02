@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 
 namespace MandelbrotFractalApplication.Presentation
 {
@@ -16,7 +15,7 @@ namespace MandelbrotFractalApplication.Presentation
             DataContext = vm;
             InitializeComponent();
             viewModel = DataContext as MainViewModel;
-            if (viewModel.DoWorkCommand.CanExecute(null)) viewModel.DoWorkCommand.Execute(null);
+            if (viewModel.CalculateCommand.CanExecute(null)) viewModel.CalculateCommand.Execute(null);
         }
     }
 }

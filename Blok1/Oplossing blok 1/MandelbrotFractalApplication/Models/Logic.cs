@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace MandelbrotFractalApplication.Models
+﻿namespace MandelbrotFractalApplication.Models
 {
     class Logic : ILogic
     {
-        private readonly Random rnd = new();
-
-        public async Task<List<DoublePoint>> GetPointsAsync(int count)
+        public int CalcMandelbrotDepth(ComplexNumber c, int maxIterations)
         {
-            var list = new List<DoublePoint>();
-            for (int i = 0; i < count; i++)
+            const double MaxValueExtent = 2.0;
+            const double MaxNorm = MaxValueExtent * MaxValueExtent;
+            int iteration = 0;
+            ComplexNumber z = new ComplexNumber();
+            do
             {
-                list.Add(new DoublePoint(X: rnd.NextDouble(), Y: rnd.NextDouble()));
-            }
-            // Simulate some 'long running' work
-            await Task.Delay(500);
-            return list;
+                z = z * z + c;
+                iteration++;
+            } while (z.Norm() < MaxNorm && iteration < maxIterations);
+            if (iteration < maxIterations)
+                return iteration;
+            else
+                return 0;
         }
     }
 }
