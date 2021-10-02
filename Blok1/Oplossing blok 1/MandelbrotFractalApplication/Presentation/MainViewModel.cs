@@ -25,6 +25,8 @@ namespace MandelbrotFractalApplication.Presentation
 
         private const double MaxValueExtent = 2.0;
 
+        public int selectedIterations = 250;
+
         private bool working = false;
 
         public MainViewModel(ILogic logic)
@@ -64,9 +66,9 @@ namespace MandelbrotFractalApplication.Presentation
                 {
                     double a = (Width / 2 - x) * scale;
                     double b = (y - Height / 2) * scale;
-                    int mutations = logic.CalcMandelbrotDepth(new ComplexNumber(b, a), 250);
+                    int mutationsDepth = logic.CalcMandelbrotDepth(new ComplexNumber(b, a), selectedIterations);
 
-                    var color = GetColor(mutations);
+                    var color = GetColor(mutationsDepth);
                     pixels[x, y] = BitConverter.ToUInt32(new byte[] { color.B, color.G, color.R, color.A });
                 });
             });

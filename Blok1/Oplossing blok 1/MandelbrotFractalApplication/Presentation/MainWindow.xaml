@@ -9,6 +9,14 @@
     <DockPanel LastChildFill="true">
         <StackPanel DockPanel.Dock="Right" Orientation="Vertical" Margin="10">
             <Button Content="Zoom in" Command="{Binding CalculateCommand}" Margin="5"/>
+            <TextBlock Text="Iterations: " Margin="10,0"/>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <ComboBox x:Name="IterationsCbx"
+                          SelectionChanged="IterationsCbx_SelectionChanged" 
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"   
+                           Width="120" />
+            </StackPanel>
         </StackPanel>
         <Border Margin="10" BorderThickness="1" BorderBrush="Black">
             <Image Name="mdbImage" Source="{Binding BitmapDisplay}" Stretch="Fill"/>
