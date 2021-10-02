@@ -8,9 +8,15 @@ namespace MandelbrotFractalApplication.Presentation
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+
+        private MainViewModel viewModel;
+
+        public MainWindow(MainViewModel vm)
         {
+            DataContext = vm;
             InitializeComponent();
+            viewModel = DataContext as MainViewModel;
+            if (viewModel.DoWorkCommand.CanExecute(null)) viewModel.DoWorkCommand.Execute(null);
         }
     }
 }

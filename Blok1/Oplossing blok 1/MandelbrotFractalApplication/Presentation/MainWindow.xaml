@@ -6,7 +6,12 @@
         xmlns:local="clr-namespace:MandelbrotFractalApplication"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <DockPanel LastChildFill="true">
+        <StackPanel DockPanel.Dock="Right" Orientation="Vertical" Margin="10">
+            <Button Content="Zoom in" Command="{Binding DoWorkCommand}" Margin="5"/>
+        </StackPanel>
+        <Border Margin="10" BorderThickness="1" BorderBrush="Black">
+            <Image Name="mdbImage" Source="{Binding BitmapDisplay}" Stretch="Fill"/>
+        </Border>
+    </DockPanel>
 </Window>
