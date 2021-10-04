@@ -20,6 +20,7 @@ namespace MandelbrotFractalApplication.Presentation
         private const double MaxValueExtent = 2.0;
 
         public int selectedIterations = 250;
+        public string selectedColorMode = Enum.GetName(typeof(ColorGradients), ColorGradients.Multicolor);
 
         public double zoomScale = 1;
 
@@ -39,7 +40,7 @@ namespace MandelbrotFractalApplication.Presentation
         public MainViewModel(ILogic logic)
         {
             this.logic = logic;
-            ResetCommand = new RelayCommand(() => ResetMandelbrot(), () => !working);
+            ResetCommand = new RelayCommand(() => ResetMandelbrot());
             CalculateCommand = new RelayCommand(async () => await MandelbrotAsync(), () => !working);
             CreateBitmap(MaxColumn, MaxRow);
         }
@@ -80,11 +81,11 @@ namespace MandelbrotFractalApplication.Presentation
             {
                 Parallel.For(0, Width, y =>
                 {
-                    double a = (Width / 2 - x) * scale / zoomScale + xOffset;
-                    double b = (y - Height / 2) * scale / zoomScale + yOffset;
+                    double a = (Width / 2 - x) * scale / zoomScale + 0.41687344;
+                    double b = (y - Height / 2) * scale / zoomScale + 0.3434739373;
                     int mutationsDepth = logic.CalcMandelbrotDepth(new ComplexNumber(b, a), selectedIterations);
 
-                    var color = GetColor(mutationsDepth);
+                    var color = GetColor(mutationsDepth);  
                     pixels[x, y] = BitConverter.ToUInt32(new byte[] { color.B, color.G, color.R, color.A });
                 });
             });
@@ -92,15 +93,34 @@ namespace MandelbrotFractalApplication.Presentation
             BitmapDisplay.WritePixels(rectangle, pixels, BitmapDisplay.BackBufferStride, 0, 0);
         }
 
-        public static Color GetColor(int value)
+        public Color GetColor(int depthIteration)
         {
-            if (value % 2 == 0)
+            int calculatedColor = depthIteration * 255;
+
+            if (selectedColorMode == Enum.GetName(typeof(ColorGradients), ColorGradients.Banding))
             {
-                return Color.FromRgb(0, 0, 0);
+                byte red = (byte)(calculatedColor / 255);
+                byte green = (byte)(calculatedColor / 255);
+                byte blue = (byte)(calculatedColor / 255);
+                return Color.FromArgb(255, red, green, blue);
+            }
+            else if (selectedColorMode == Enum.GetName(typeof(ColorGradients), ColorGradients.Grayscale))
+            {
+                byte red = (byte)(calculatedColor);
+                byte green = (byte)(calculatedColor);
+                byte blue = (byte)(calculatedColor);
+                return Color.FromRgb(red, green, blue);
+            }
+            else if (selectedColorMode == Enum.GetName(typeof(ColorGradients), ColorGradients.Multicolor))
+            {
+                byte red = (byte)(calculatedColor / 64);
+                byte green = (byte)(calculatedColor / 84);
+                byte blue = (byte)(calculatedColor / 20);
+                return Color.FromRgb(red, green, blue);
             }
             else
             {
-                return Color.FromRgb(255, 255, 255);
+                return Color.FromRgb(0, 0, 0);
             }
         }
     }
