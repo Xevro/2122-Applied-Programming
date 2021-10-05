@@ -101,19 +101,19 @@ namespace MandelbrotFractalApplication.Presentation
 
                 if (xDirection == "right")
                 {
-                    viewModel.xOffset -= (0.6 / viewModel.zoomScale);
+                    viewModel.xOffset += (0.2 / viewModel.zoomScale);
                 }
-                if (xDirection == "left")
+                else if (xDirection == "left")
                 {
-                    viewModel.xOffset += (0.6 / viewModel.zoomScale);
+                    viewModel.xOffset -= (0.2 / viewModel.zoomScale);
                 }
                 if (yDirection == "up")
                 {
-                    viewModel.yOffset -= (0.6 / viewModel.zoomScale);
+                    viewModel.yOffset += (0.1 / viewModel.zoomScale);
                 }
-                if (yDirection == "down")
+                else if (yDirection == "down")
                 {
-                    viewModel.yOffset += (0.6 / viewModel.zoomScale);
+                    viewModel.yOffset -= (0.1 / viewModel.zoomScale);
                 }
 
                 oldX = (int)e.GetPosition(this).X;
