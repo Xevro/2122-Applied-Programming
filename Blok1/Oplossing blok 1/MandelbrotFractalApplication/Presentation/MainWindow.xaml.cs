@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace MandelbrotFractalApplication.Presentation
 {
@@ -13,6 +14,7 @@ namespace MandelbrotFractalApplication.Presentation
         private readonly MainViewModel viewModel;
 
         private readonly int[] Iterations = { 50, 100, 250, 500, 1000, 2000, 5000 };
+
         private readonly string[] MandelbrotColors = {
             Enum.GetName(typeof(ColorGradients), ColorGradients.Banding),
             Enum.GetName(typeof(ColorGradients), ColorGradients.Grayscale),
@@ -21,6 +23,13 @@ namespace MandelbrotFractalApplication.Presentation
 
         private bool windowShowFirstTimeIterations = true;
         private bool windowShowFirstTimeColor = true;
+
+
+        private string xDirection = "";
+        private string yDirection = "";
+
+        public int oldX = 0;
+        public int oldY = 0;
 
         public MainWindow(MainViewModel vm)
         {
@@ -60,15 +69,55 @@ namespace MandelbrotFractalApplication.Presentation
             if (e.Delta > 0)
             {
                 viewModel.zoomScale *= 1.4d;
-                var pos = e.GetPosition(this);
-
-                viewModel.xOffset = (pos.X / 400) / viewModel.zoomScale;
-                viewModel.yOffset = (pos.Y / 400) / viewModel.zoomScale;
                 if (viewModel.CalculateCommand.CanExecute(null)) viewModel.CalculateCommand.Execute(null);
             }
             else if (e.Delta < 0)
             {
                 viewModel.zoomScale /= 1.4d;
+                if (viewModel.CalculateCommand.CanExecute(null)) viewModel.CalculateCommand.Execute(null);
+            }
+        }
+        private void MdbImage_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                if (oldX < e.GetPosition(this).X)
+                {
+                    xDirection = "right";
+                }
+                else if (oldX > e.GetPosition(this).X)
+                {
+                    xDirection = "left";
+                }
+
+                if (oldY < e.GetPosition(this).Y)
+                {
+                    yDirection = "down";
+                }
+                else if (oldY > e.GetPosition(this).Y)
+                {
+                    yDirection = "up";
+                }
+
+                if (xDirection == "right")
+                {
+                    viewModel.xOffset -= (0.6 / viewModel.zoomScale);
+                }
+                if (xDirection == "left")
+                {
+                    viewModel.xOffset += (0.6 / viewModel.zoomScale);
+                }
+                if (yDirection == "up")
+                {
+                    viewModel.yOffset -= (0.6 / viewModel.zoomScale);
+                }
+                if (yDirection == "down")
+                {
+                    viewModel.yOffset += (0.6 / viewModel.zoomScale);
+                }
+
+                oldX = (int)e.GetPosition(this).X;
+                oldY = (int)e.GetPosition(this).Y;
                 if (viewModel.CalculateCommand.CanExecute(null)) viewModel.CalculateCommand.Execute(null);
             }
         }

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using MandelbrotFractalApplication.Models;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -14,8 +15,8 @@ namespace MandelbrotFractalApplication.Presentation
         private const int Width = 800;
         private const int Height = 800;
 
-        private const int MaxRow = 800;
-        private const int MaxColumn = 800;
+        private const int MaxRow = Width;
+        private const int MaxColumn = Height;
 
         private const double MaxValueExtent = 2.0;
 
@@ -29,6 +30,12 @@ namespace MandelbrotFractalApplication.Presentation
 
         private bool working = false;
 
+        public string CalculationTime { get; private set; }
+
+        public double ZoomScale { get; private set; }
+
+        public string Title => "WPF-mandelbrot application";
+
         private readonly ILogic logic;
 
         public WriteableBitmap BitmapDisplay { get; private set; }
@@ -41,7 +48,7 @@ namespace MandelbrotFractalApplication.Presentation
         {
             this.logic = logic;
             ResetCommand = new RelayCommand(() => ResetMandelbrot());
-            CalculateCommand = new RelayCommand(async () => await MandelbrotAsync(), () => !working);
+            CalculateCommand = new RelayCommand(() => MandelbrotCalculation(), () => !working);
             CreateBitmap(MaxColumn, MaxRow);
         }
 
@@ -52,6 +59,8 @@ namespace MandelbrotFractalApplication.Presentation
             var pixelFormat = PixelFormats.Pbgra32;
             BitmapDisplay = new WriteableBitmap(width, height, dpiX, dpiY, pixelFormat, null);
             OnPropertyChanged(nameof(BitmapDisplay));
+            OnPropertyChanged(nameof(CalculationTime));
+            OnPropertyChanged(nameof(ZoomScale));
         }
 
         private void ResetMandelbrot()
@@ -62,7 +71,7 @@ namespace MandelbrotFractalApplication.Presentation
             CalculateCommand.Execute(null);
         }
 
-        private async Task MandelbrotAsync()
+        private void MandelbrotCalculation()
         {
             working = true;
             CalculateCommand.NotifyCanExecuteChanged();
@@ -73,24 +82,28 @@ namespace MandelbrotFractalApplication.Presentation
 
         private void GenerateBitmap()
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             var pixelBlock = new Color[Height, Width];
-            double scale = MaxValueExtent / Math.Min(Width, Height);
+            double scale = 2 * MaxValueExtent / Math.Min(Width, Height);
             uint[,] pixels = new uint[Height, Width];
 
             Parallel.For(0, Height, x =>
             {
                 Parallel.For(0, Width, y =>
                 {
-                    double a = (Width / 2 - x) * scale / zoomScale + 0.41687344;
-                    double b = (y - Height / 2) * scale / zoomScale + 0.3434739373;
+                    double a = (Width / 2 - x) * scale / zoomScale + xOffset;
+                    double b = (y - Height / 2) * scale / zoomScale + yOffset;
                     int mutationsDepth = logic.CalcMandelbrotDepth(new ComplexNumber(b, a), selectedIterations);
-
-                    var color = GetColor(mutationsDepth);  
+                    var color = GetColor(mutationsDepth);
                     pixels[x, y] = BitConverter.ToUInt32(new byte[] { color.B, color.G, color.R, color.A });
                 });
             });
             var rectangle = new Int32Rect(0, 0, Height, Width);
             BitmapDisplay.WritePixels(rectangle, pixels, BitmapDisplay.BackBufferStride, 0, 0);
+            sw.Stop();
+            CalculationTime = "Calc. time: " + sw.ElapsedMilliseconds +
+                "ms (" + (double)(sw.ElapsedMilliseconds / 1000.0) + "sec)";
         }
 
         public Color GetColor(int depthIteration)
@@ -99,10 +112,14 @@ namespace MandelbrotFractalApplication.Presentation
 
             if (selectedColorMode == Enum.GetName(typeof(ColorGradients), ColorGradients.Banding))
             {
-                byte red = (byte)(calculatedColor / 255);
-                byte green = (byte)(calculatedColor / 255);
-                byte blue = (byte)(calculatedColor / 255);
-                return Color.FromArgb(255, red, green, blue);
+                if (depthIteration % 2 == 0)
+                {
+                    return Color.FromRgb(0, 0, 0);
+                }
+                else
+                {
+                    return Color.FromRgb(255, 255, 255);
+                }
             }
             else if (selectedColorMode == Enum.GetName(typeof(ColorGradients), ColorGradients.Grayscale))
             {
