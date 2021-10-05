@@ -1,5 +1,8 @@
 ﻿namespace MandelbrotFractalApplication.Models
 {
+    // Source code: https://rosettacode.org/wiki/Mandelbrot_set#C.23
+    // Used on 28/09/2021
+    // Function name: CalcMandelbrotSetColor()
     public struct ComplexNumber
     {
         public double realAxis;

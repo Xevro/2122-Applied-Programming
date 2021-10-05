@@ -16,9 +16,6 @@ namespace MandelbrotFractalApplication.Presentation
         private const int Width = 800;
         private const int Height = 800;
 
-        private const int MaxRow = Width;
-        private const int MaxColumn = Height;
-
         public int selectedIterations = 250;
         public string selectedColorMode = Enum.GetName(typeof(ColorGradients), ColorGradients.Multicolor);
 
@@ -38,17 +35,17 @@ namespace MandelbrotFractalApplication.Presentation
 
         public static string Title => "WPF - Mandelbrot Application - Louis D'Hont";
 
-        private readonly ILogic logic;
-
         public WriteableBitmap BitmapDisplay { get; private set; }
 
         public IRelayCommand CalculateCommand { get; private set; }
+
+        private readonly ILogic logic;
 
         public MainViewModel(ILogic logic)
         {
             this.logic = logic;
             CalculateCommand = new RelayCommand(() => MandelbrotCalculation(), () => !working);
-            CreateBitmap(MaxColumn, MaxRow);
+            CreateBitmap(Height, Width);
         }
 
         private void CreateBitmap(int width, int height)
@@ -85,7 +82,8 @@ namespace MandelbrotFractalApplication.Presentation
             using (var cancelSource = new CancellationTokenSource())
             {
                 var cancelToken = cancelSource.Token;
-                int[,] mandelbrotDepthValues = await Task.Run(() => logic.CalcMandelbrotDepthAsync(zoomScale, xOffset, yOffset, Width, Height, selectedIterations), cancelToken);
+                int[,] mandelbrotDepthValues = await Task.Run(() =>
+                    logic.CalculateMandelbrotDepthAsync(zoomScale, xOffset, yOffset, Width, Height, selectedIterations), cancelToken);
                 cancelSource.Cancel();
                 uint[,] bitmapPixels = new uint[Width, Height];
 

@@ -37,7 +37,7 @@ namespace MandelbrotFractalApplication.Presentation
             PopulateIterationsComboBox();
             PopulateColorsComboBox();
             viewModel = DataContext as MainViewModel;
-            RerenderMandelbrot();
+            ReRenderMandelbrot();
         }
 
         private void PopulateIterationsComboBox()
@@ -60,7 +60,7 @@ namespace MandelbrotFractalApplication.Presentation
                 return;
             }
             viewModel.selectedIterations = (int)IterationsCbx.SelectedItem;
-            RerenderMandelbrot();
+            ReRenderMandelbrot();
         }
 
         private void MdbImage_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -68,12 +68,12 @@ namespace MandelbrotFractalApplication.Presentation
             if (e.Delta > 0)
             {
                 viewModel.zoomScale *= 1.4d;
-                RerenderMandelbrot();
+                ReRenderMandelbrot();
             }
             else if (e.Delta < 0)
             {
                 viewModel.zoomScale /= 1.4d;
-                RerenderMandelbrot();
+                ReRenderMandelbrot();
             }
         }
 
@@ -118,7 +118,7 @@ namespace MandelbrotFractalApplication.Presentation
 
                 oldX = (int)e.GetPosition(this).X;
                 oldY = (int)e.GetPosition(this).Y;
-                RerenderMandelbrot();
+                ReRenderMandelbrot();
             }
         }
 
@@ -130,25 +130,25 @@ namespace MandelbrotFractalApplication.Presentation
         private void ButtonUp_Click(object sender, RoutedEventArgs e)
         {
             viewModel.xOffset += (0.6 / viewModel.zoomScale);
-            RerenderMandelbrot();
+            ReRenderMandelbrot();
         }
 
         private void ButtonDown_Click(object sender, RoutedEventArgs e)
         {
             viewModel.xOffset -= (0.6 / viewModel.zoomScale);
-            RerenderMandelbrot();
+            ReRenderMandelbrot();
         }
 
         private void ButtonLeft_Click(object sender, RoutedEventArgs e)
         {
             viewModel.yOffset -= (0.6 / viewModel.zoomScale);
-            RerenderMandelbrot();
+            ReRenderMandelbrot();
         }
 
         private void ButtonRight_Click(object sender, RoutedEventArgs e)
         {
             viewModel.yOffset += (0.6 / viewModel.zoomScale);
-            RerenderMandelbrot();
+            ReRenderMandelbrot();
         }
 
         private void MandelbrotColorCbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -159,10 +159,10 @@ namespace MandelbrotFractalApplication.Presentation
                 return;
             }
             viewModel.selectedColorMode = (string)MandelbrotColorCbx.SelectedItem;
-            RerenderMandelbrot();
+            ReRenderMandelbrot();
         }
 
-        private void RerenderMandelbrot()
+        private void ReRenderMandelbrot()
         {
             if (viewModel.CalculateCommand.CanExecute(null)) viewModel.CalculateCommand.Execute(null);
         }

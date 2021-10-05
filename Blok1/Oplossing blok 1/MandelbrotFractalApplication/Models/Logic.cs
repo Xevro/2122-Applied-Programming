@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 
 namespace MandelbrotFractalApplication.Models
 {
@@ -7,7 +6,9 @@ namespace MandelbrotFractalApplication.Models
     {
         private const double MaxValueExtent = 2.0;
 
-        public int[,] CalcMandelbrotDepthAsync(double zoomScale, double xOffset, double yOffset, int width, int height, int maxIterations)
+        // Source code: https://rosettacode.org/wiki/Mandelbrot_set#C.23
+        // Used on 28/09/2021
+        public int[,] CalculateMandelbrotDepthAsync(double zoomScale, double xOffset, double yOffset, int width, int height, int maxIterations)
         {
             int[,] pixels = new int[width, height];
             double scale = 2 * MaxValueExtent / Math.Min(width, height);
