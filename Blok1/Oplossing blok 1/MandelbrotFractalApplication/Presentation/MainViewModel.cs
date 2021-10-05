@@ -18,8 +18,6 @@ namespace MandelbrotFractalApplication.Presentation
         private const int MaxRow = Width;
         private const int MaxColumn = Height;
 
-        private const double MaxValueExtent = 2.0;
-
         public int selectedIterations = 250;
         public string selectedColorMode = Enum.GetName(typeof(ColorGradients), ColorGradients.Multicolor);
 
@@ -32,9 +30,12 @@ namespace MandelbrotFractalApplication.Presentation
 
         public string CalculationTime { get; private set; }
 
-        public double ZoomScale { get; private set; }
+        public string ZoomScale { get; private set; }
 
-        public string Title => "WPF-mandelbrot application";
+        public string OffsetX { get; private set; }
+        public string OffsetY { get; private set; }
+
+        public static string Title => "WPF - Mandelbrot Application - Louis D'Hont";
 
         private readonly ILogic logic;
 
@@ -42,13 +43,10 @@ namespace MandelbrotFractalApplication.Presentation
 
         public IRelayCommand CalculateCommand { get; private set; }
 
-        public IRelayCommand ResetCommand { get; private set; }
-
         public MainViewModel(ILogic logic)
         {
             this.logic = logic;
-            ResetCommand = new RelayCommand(() => ResetMandelbrot());
-            CalculateCommand = new RelayCommand(() => MandelbrotCalculation(), () => !working);
+            CalculateCommand = new RelayCommand(async () => await MandelbrotCalculation(), () => !working);
             CreateBitmap(MaxColumn, MaxRow);
         }
 
@@ -59,11 +57,9 @@ namespace MandelbrotFractalApplication.Presentation
             var pixelFormat = PixelFormats.Pbgra32;
             BitmapDisplay = new WriteableBitmap(width, height, dpiX, dpiY, pixelFormat, null);
             OnPropertyChanged(nameof(BitmapDisplay));
-            OnPropertyChanged(nameof(CalculationTime));
-            OnPropertyChanged(nameof(ZoomScale));
         }
 
-        private void ResetMandelbrot()
+        public void ResetMandelbrot()
         {
             zoomScale = 1;
             xOffset = 0;
@@ -71,39 +67,50 @@ namespace MandelbrotFractalApplication.Presentation
             CalculateCommand.Execute(null);
         }
 
-        private void MandelbrotCalculation()
+        private async Task MandelbrotCalculation()
         {
             working = true;
             CalculateCommand.NotifyCanExecuteChanged();
-            GenerateBitmap();
+            GenerateBitmapAsync();
             working = false;
             CalculateCommand.NotifyCanExecuteChanged();
         }
 
-        private void GenerateBitmap()
+        private void GenerateBitmapAsync()
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            var pixelBlock = new Color[Height, Width];
-            double scale = 2 * MaxValueExtent / Math.Min(Width, Height);
-            uint[,] pixels = new uint[Height, Width];
 
-            Parallel.For(0, Height, x =>
+            int[,] mandelbrotDepthValues = logic.CalcMandelbrotDepthAsync(zoomScale, xOffset, yOffset, Width, Height, selectedIterations);
+            uint[,] bitmapPixels = new uint[Width, Height];
+
+            for (int x = 0; x < Height; x++)
             {
-                Parallel.For(0, Width, y =>
+                for (int y = 0; y < Width; y++)
                 {
-                    double a = (Width / 2 - x) * scale / zoomScale + xOffset;
-                    double b = (y - Height / 2) * scale / zoomScale + yOffset;
-                    int mutationsDepth = logic.CalcMandelbrotDepth(new ComplexNumber(b, a), selectedIterations);
-                    var color = GetColor(mutationsDepth);
-                    pixels[x, y] = BitConverter.ToUInt32(new byte[] { color.B, color.G, color.R, color.A });
-                });
-            });
+                    var color = GetColor(mandelbrotDepthValues[x, y]);
+                    bitmapPixels[x, y] = BitConverter.ToUInt32(new byte[] { color.B, color.G, color.R, color.A });
+                }
+            }
+
             var rectangle = new Int32Rect(0, 0, Height, Width);
-            BitmapDisplay.WritePixels(rectangle, pixels, BitmapDisplay.BackBufferStride, 0, 0);
+            BitmapDisplay.WritePixels(rectangle, bitmapPixels, BitmapDisplay.BackBufferStride, 0, 0);
+
             sw.Stop();
+            ChangeProperties(sw);
+        }
+
+        private void ChangeProperties(Stopwatch sw)
+        {
+            ZoomScale = "Zoomscale: " + zoomScale;
+            OffsetX = "X offset: " + xOffset;
+            OffsetY = "Y offset: " + yOffset;
             CalculationTime = "Calc. time: " + sw.ElapsedMilliseconds +
                 "ms (" + (double)(sw.ElapsedMilliseconds / 1000.0) + "sec)";
+            OnPropertyChanged(nameof(CalculationTime));
+            OnPropertyChanged(nameof(ZoomScale));
+            OnPropertyChanged(nameof(OffsetX));
+            OnPropertyChanged(nameof(OffsetY));
         }
 
         public Color GetColor(int depthIteration)

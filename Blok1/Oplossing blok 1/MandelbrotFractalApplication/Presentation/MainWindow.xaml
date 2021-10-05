@@ -28,6 +28,15 @@
                            Width="120" />
             </StackPanel>
             <TextBlock Text="{Binding CalculationTime}" Margin="10,0"/>
+            <TextBlock Text="{Binding ZoomScale}" Margin="10,0"/>
+            <TextBlock Text="{Binding OffsetX}" Margin="10,0"/>
+            <TextBlock Text="{Binding OffsetY}" Margin="10,0"/>
+            <StackPanel>
+                <Button Content="Up" Click="ButtonUp_Click" Margin="5"/>
+                <Button Content="Down" Click="ButtonDown_Click" Margin="5"/>
+                <Button Content="Left" Click="ButtonLeft_Click" Margin="5"/>
+                <Button Content="Right" Click="ButtonRight_Click" Margin="5"/>
+            </StackPanel>
         </StackPanel>
         <Border Margin="10" BorderThickness="1" BorderBrush="Black">
             <Image Name="mdbImage" Source="{Binding BitmapDisplay}" Stretch="Fill"

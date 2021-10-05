@@ -2,6 +2,6 @@
 {
     public interface ILogic
     {
-        public int CalcMandelbrotDepth(ComplexNumber c, int maxIterations);
+        public int[,] CalcMandelbrotDepthAsync(double zoomScale, double xOffset, double yOffset, int width, int height, int maxIterations);
     }
 }

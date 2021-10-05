@@ -21,15 +21,14 @@ namespace MandelbrotFractalApplication.Presentation
             Enum.GetName(typeof(ColorGradients), ColorGradients.Multicolor)
         };
 
-        private bool windowShowFirstTimeIterations = true;
-        private bool windowShowFirstTimeColor = true;
-
+        private bool firstTimeIterations = true;
+        private bool firstTimeColor = true;
 
         private string xDirection = "";
         private string yDirection = "";
 
-        public int oldX = 0;
-        public int oldY = 0;
+        private int oldX = 0;
+        private int oldY = 0;
 
         public MainWindow(MainViewModel vm)
         {
@@ -38,7 +37,7 @@ namespace MandelbrotFractalApplication.Presentation
             PopulateIterationsComboBox();
             PopulateColorsComboBox();
             viewModel = DataContext as MainViewModel;
-            if (viewModel.CalculateCommand.CanExecute(null)) viewModel.CalculateCommand.Execute(null);
+            RerenderMandelbrot();
         }
 
         private void PopulateIterationsComboBox()
@@ -55,28 +54,29 @@ namespace MandelbrotFractalApplication.Presentation
 
         private void IterationsCbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (windowShowFirstTimeIterations)
+            if (firstTimeIterations)
             {
-                windowShowFirstTimeIterations = false;
+                firstTimeIterations = false;
                 return;
             }
             viewModel.selectedIterations = (int)IterationsCbx.SelectedItem;
-            if (viewModel.CalculateCommand.CanExecute(null)) viewModel.CalculateCommand.Execute(null);
+            RerenderMandelbrot();
         }
 
-        private void MdbImage_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        private void MdbImage_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (e.Delta > 0)
             {
                 viewModel.zoomScale *= 1.4d;
-                if (viewModel.CalculateCommand.CanExecute(null)) viewModel.CalculateCommand.Execute(null);
+                RerenderMandelbrot();
             }
             else if (e.Delta < 0)
             {
                 viewModel.zoomScale /= 1.4d;
-                if (viewModel.CalculateCommand.CanExecute(null)) viewModel.CalculateCommand.Execute(null);
+                RerenderMandelbrot();
             }
         }
+
         private void MdbImage_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -118,23 +118,52 @@ namespace MandelbrotFractalApplication.Presentation
 
                 oldX = (int)e.GetPosition(this).X;
                 oldY = (int)e.GetPosition(this).Y;
-                if (viewModel.CalculateCommand.CanExecute(null)) viewModel.CalculateCommand.Execute(null);
+                RerenderMandelbrot();
             }
         }
 
         private void ResetMandelBrot_Click(object sender, RoutedEventArgs e)
         {
-            if (viewModel.ResetCommand.CanExecute(null)) viewModel.ResetCommand.Execute(null);
+            viewModel.ResetMandelbrot();
+        }
+
+        private void ButtonUp_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.xOffset += (0.6 / viewModel.zoomScale);
+            RerenderMandelbrot();
+        }
+
+        private void ButtonDown_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.xOffset -= (0.6 / viewModel.zoomScale);
+            RerenderMandelbrot();
+        }
+
+        private void ButtonLeft_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.yOffset -= (0.6 / viewModel.zoomScale);
+            RerenderMandelbrot();
+        }
+
+        private void ButtonRight_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.yOffset += (0.6 / viewModel.zoomScale);
+            RerenderMandelbrot();
         }
 
         private void MandelbrotColorCbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (windowShowFirstTimeColor)
+            if (firstTimeColor)
             {
-                windowShowFirstTimeColor = false;
+                firstTimeColor = false;
                 return;
             }
             viewModel.selectedColorMode = (string)MandelbrotColorCbx.SelectedItem;
+            RerenderMandelbrot();
+        }
+
+        private void RerenderMandelbrot()
+        {
             if (viewModel.CalculateCommand.CanExecute(null)) viewModel.CalculateCommand.Execute(null);
         }
     }
