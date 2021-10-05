@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace MandelbrotFractalApplication.Models
 {
@@ -10,7 +11,6 @@ namespace MandelbrotFractalApplication.Models
         {
             int[,] pixels = new int[width, height];
             double scale = 2 * MaxValueExtent / Math.Min(width, height);
-
             for (int x = 0; x < height; x++)
             {
                 for (int y = 0; y < width; y++)
@@ -18,7 +18,6 @@ namespace MandelbrotFractalApplication.Models
                     double a = (width / 2 - x) * scale / zoomScale + xOffset;
                     double b = (y - height / 2) * scale / zoomScale + yOffset;
                     ComplexNumber c = new ComplexNumber(b, a);
-                    const double MaxValueExtent = 2.0;
                     const double MaxNorm = MaxValueExtent * MaxValueExtent;
                     int iteration = 0;
                     ComplexNumber z = new ComplexNumber();

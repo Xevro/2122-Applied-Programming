@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using MandelbrotFractalApplication.Models;
 using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -46,7 +47,7 @@ namespace MandelbrotFractalApplication.Presentation
         public MainViewModel(ILogic logic)
         {
             this.logic = logic;
-            CalculateCommand = new RelayCommand(async () => await MandelbrotCalculation(), () => !working);
+            CalculateCommand = new RelayCommand(() => MandelbrotCalculation(), () => !working);
             CreateBitmap(MaxColumn, MaxRow);
         }
 
@@ -67,7 +68,7 @@ namespace MandelbrotFractalApplication.Presentation
             CalculateCommand.Execute(null);
         }
 
-        private async Task MandelbrotCalculation()
+        private void MandelbrotCalculation()
         {
             working = true;
             CalculateCommand.NotifyCanExecuteChanged();
@@ -76,28 +77,31 @@ namespace MandelbrotFractalApplication.Presentation
             CalculateCommand.NotifyCanExecuteChanged();
         }
 
-        private void GenerateBitmapAsync()
+        private async void GenerateBitmapAsync()
         {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
 
-            int[,] mandelbrotDepthValues = logic.CalcMandelbrotDepthAsync(zoomScale, xOffset, yOffset, Width, Height, selectedIterations);
-            uint[,] bitmapPixels = new uint[Width, Height];
-
-            for (int x = 0; x < Height; x++)
+            using (var cancelSource = new CancellationTokenSource())
             {
-                for (int y = 0; y < Width; y++)
+                var cancelToken = cancelSource.Token;
+                int[,] mandelbrotDepthValues = await Task.Run(() => logic.CalcMandelbrotDepthAsync(zoomScale, xOffset, yOffset, Width, Height, selectedIterations), cancelToken);
+                cancelSource.Cancel();
+                uint[,] bitmapPixels = new uint[Width, Height];
+
+                for (int x = 0; x < Height; x++)
                 {
-                    var color = GetColor(mandelbrotDepthValues[x, y]);
-                    bitmapPixels[x, y] = BitConverter.ToUInt32(new byte[] { color.B, color.G, color.R, color.A });
+                    for (int y = 0; y < Width; y++)
+                    {
+                        var color = GetColor(mandelbrotDepthValues[x, y]);
+                        bitmapPixels[x, y] = BitConverter.ToUInt32(new byte[] { color.B, color.G, color.R, color.A });
+                    }
                 }
+                var rectangle = new Int32Rect(0, 0, Height, Width);
+                BitmapDisplay.WritePixels(rectangle, bitmapPixels, BitmapDisplay.BackBufferStride, 0, 0);
             }
-
-            var rectangle = new Int32Rect(0, 0, Height, Width);
-            BitmapDisplay.WritePixels(rectangle, bitmapPixels, BitmapDisplay.BackBufferStride, 0, 0);
-
-            sw.Stop();
-            ChangeProperties(sw);
+            stopWatch.Stop();
+            ChangeProperties(stopWatch);
         }
 
         private void ChangeProperties(Stopwatch sw)

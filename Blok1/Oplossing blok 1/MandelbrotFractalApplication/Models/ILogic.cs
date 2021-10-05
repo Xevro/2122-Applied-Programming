@@ -1,4 +1,6 @@
-﻿namespace MandelbrotFractalApplication.Models
+﻿using System.Threading;
+
+namespace MandelbrotFractalApplication.Models
 {
     public interface ILogic
     {
