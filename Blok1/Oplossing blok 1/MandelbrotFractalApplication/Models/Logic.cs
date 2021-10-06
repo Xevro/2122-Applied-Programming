@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace MandelbrotFractalApplication.Models
 {
@@ -12,7 +13,7 @@ namespace MandelbrotFractalApplication.Models
         {
             int[,] pixels = new int[width, height];
             double scale = 2 * MaxValueExtent / Math.Min(width, height);
-            for (int x = 0; x < height; x++)
+            Parallel.For(0, height, x =>
             {
                 for (int y = 0; y < width; y++)
                 {
@@ -32,7 +33,7 @@ namespace MandelbrotFractalApplication.Models
                     else
                         pixels[x, y] = 0;
                 }
-            }
+            });
             return pixels;
         }
     }
