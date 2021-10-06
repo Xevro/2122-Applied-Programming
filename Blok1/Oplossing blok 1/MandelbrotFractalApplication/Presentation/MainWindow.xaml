@@ -32,6 +32,8 @@
             <TextBlock Text="{Binding OffsetX}" Margin="10,0"/>
             <TextBlock Text="{Binding OffsetY}" Margin="10,0"/>
             <StackPanel>
+                <Button Content="Zoom in" Click="ZoomIn_Click" Margin="5"/>
+                <Button Content="Zoom out" Click="ZoomOut_Click" Margin="5"/>
                 <Button Content="Up" Click="ButtonUp_Click" Margin="5"/>
                 <Button Content="Down" Click="ButtonDown_Click" Margin="5"/>
                 <Button Content="Left" Click="ButtonLeft_Click" Margin="5"/>

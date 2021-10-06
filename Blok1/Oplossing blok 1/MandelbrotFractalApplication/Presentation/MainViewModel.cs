@@ -76,12 +76,11 @@ namespace MandelbrotFractalApplication.Presentation
 
         private async void GenerateBitmapAsync()
         {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             using (var cancelSource = new CancellationTokenSource())
             {
                 var cancelToken = cancelSource.Token;
+                Stopwatch stopWatch = new Stopwatch();
+                stopWatch.Start();
                 int[,] mandelbrotDepthValues = await Task.Run(() =>
                     logic.CalculateMandelbrotDepthAsync(zoomScale, xOffset, yOffset, Width, Height, selectedIterations), cancelToken);
                 cancelSource.Cancel();
@@ -97,9 +96,9 @@ namespace MandelbrotFractalApplication.Presentation
                 }
                 var rectangle = new Int32Rect(0, 0, Height, Width);
                 BitmapDisplay.WritePixels(rectangle, bitmapPixels, BitmapDisplay.BackBufferStride, 0, 0);
+                stopWatch.Stop();
+                ChangeProperties(stopWatch);
             }
-            stopWatch.Stop();
-            ChangeProperties(stopWatch);
         }
 
         private void ChangeProperties(Stopwatch sw)

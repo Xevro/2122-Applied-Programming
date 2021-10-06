@@ -25,7 +25,6 @@
                 x.realAxis * y.imaginaryAxis + x.imaginaryAxis * y.realAxis);
         }
 
-
         public double Norm()
         {
             return realAxis * realAxis + imaginaryAxis * imaginaryAxis;

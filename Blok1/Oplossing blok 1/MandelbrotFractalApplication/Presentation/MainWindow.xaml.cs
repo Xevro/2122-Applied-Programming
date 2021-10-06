@@ -77,6 +77,18 @@ namespace MandelbrotFractalApplication.Presentation
             }
         }
 
+        private void ZoomIn_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.zoomScale *= 1.4d;
+            ReRenderMandelbrot();
+        }
+
+        private void ZoomOut_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.zoomScale /= 1.4d;
+            ReRenderMandelbrot();
+        }
+
         private void MdbImage_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -164,7 +176,7 @@ namespace MandelbrotFractalApplication.Presentation
 
         private void ReRenderMandelbrot()
         {
-            if (viewModel.CalculateCommand.CanExecute(null)) viewModel.CalculateCommand.Execute(null);
+            viewModel.CalculateCommand.Execute(null);
         }
     }
 }
