@@ -68,13 +68,12 @@ namespace MandelbrotFractalApplication.Presentation
             if (e.Delta > 0)
             {
                 viewModel.zoomScale *= 1.4d;
-                ReRenderMandelbrot();
             }
             else if (e.Delta < 0)
             {
                 viewModel.zoomScale /= 1.4d;
-                ReRenderMandelbrot();
             }
+            ReRenderMandelbrot();
         }
 
         private void ZoomIn_Click(object sender, RoutedEventArgs e)
