@@ -6,6 +6,6 @@ This repository contains 2 projects that I made in my 3th year at Odisee.
 
 ### Solution 1 - Mandelbrot fractal application
 
-You can find the source code under 'Blok 1/Oplossing 1' and inside the 'installatie package' is a installable package available with a self signed certificate.
+You can find the source code under 'Blok 1/Oplossing blok 1' and inside the 'installatie package' is a installable package available with a self signed certificate.
  
 
