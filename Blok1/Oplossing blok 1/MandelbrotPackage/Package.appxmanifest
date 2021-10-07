@@ -7,12 +7,12 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="25ea5af2-84ac-4eb2-93ca-0d7cb3b153f7"
+    Name="6cdbcd6d-ff29-41f9-8714-fc00e1bc744d"
     Publisher="CN=Louis D&apos;Hont"
-    Version="1.0.0.0" />
+    Version="1.0.2.0" />
 
   <Properties>
-    <DisplayName>MandelbrotPackage</DisplayName>
+    <DisplayName>Mandelbrot Application</DisplayName>
     <PublisherDisplayName>Louis D&apos;Hont</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
