@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PendulumWaveApplication", "PendulumWaveApplication\PendulumWaveApplication.csproj", "{4217F35B-B83B-4AA9-A778-919F1B6FBE50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PendulumWaveApplication", "PendulumWaveApplication\PendulumWaveApplication.csproj", "{4217F35B-B83B-4AA9-A778-919F1B6FBE50}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wpf3DUtils", "Wpf3DUtils\Wpf3DUtils.csproj", "{FDC22E86-5D56-43C7-83F5-32D8E5BF36E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{4217F35B-B83B-4AA9-A778-919F1B6FBE50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4217F35B-B83B-4AA9-A778-919F1B6FBE50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4217F35B-B83B-4AA9-A778-919F1B6FBE50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDC22E86-5D56-43C7-83F5-32D8E5BF36E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDC22E86-5D56-43C7-83F5-32D8E5BF36E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDC22E86-5D56-43C7-83F5-32D8E5BF36E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDC22E86-5D56-43C7-83F5-32D8E5BF36E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
