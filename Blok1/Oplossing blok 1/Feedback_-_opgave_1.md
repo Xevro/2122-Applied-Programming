@@ -7,98 +7,93 @@
 
 #### Architectuur (15%)
 
---> Nog niet beoordeeld
-
 ***Modulair, meerlagenmodel***
 
-- [ ] *Meerlagenmodel via mappen of klassebibliotheken*
-- [ ] *Dependency injection*
-- [ ] *Gebruik  MVVM Design pattern*
+- [x] *Meerlagenmodel via mappen of klassebibliotheken*
+- [x] *Dependency injection*
+- [x] *Gebruik  MVVM Design pattern*
 
 ***'Separation of concern'***
 
-- [ ] *Domein-logica beperkt tot logische laag*
-- [ ] *Logische laag onafhankelijk van presentatielaag*
+- [x] *Domein-logica beperkt tot logische laag*
+- [x] *Logische laag onafhankelijk van presentatielaag*
 
 
 #### Programmeerstijl, Kwaliteit van de code (10%)
 
---> Nog niet beoordeeld
-
 ***Naamgeving***
 
-- [ ] *Naamgeving volgens C# conventie*
-- [ ] *Zinvolle, duidelijke namen*
+- [x] *Naamgeving volgens C# conventie*
+- [x] *Zinvolle, duidelijke namen*
 
 ***Korte methodes***
 
-- [ ] *maximale lengte ~20 lijnen*
+- [x] *maximale lengte ~20 lijnen*
 
 ***Programmeerstijl***
 
-- [ ] *Layout code*
-- [ ] *Zinvolle, duidelijke namen*
-- [ ] *Correct gebruik commentaar*
-- [ ] *Algemene programmeerstijl*
+- [x] *Layout code*
+- [x] *Zinvolle, duidelijke namen*
+- [x] *Correct gebruik commentaar*
+- [x] *Algemene programmeerstijl*
 
 #### User interface, functionaliteit, UX (15%) 
 
---> Nog niet beoordeeld
-
 ***Ergonomie***
 
-- [ ] *Layout UI*
-- [ ] *Goede UX*
+- [x] *Layout UI*
+- [x] *Goede UX*
 
 ***functionaliteit***
 
-- [ ] *Goede weergave fractaal*
+- [x] *Goede weergave fractaal*
 - [ ] *Weergave numerieke resultaten*
-- [ ] *Zooming*
+- [x] *Zooming*
 - [ ] *Panning*
-- [ ] *Aanpasbare iteratielimiet*
-- [ ] *instelbare kleurenweergave*
+- [x] *Aanpasbare iteratielimiet*
+- [x] *instelbare kleurenweergave*
+
+> geen weergave cursor coördinaten met aanduiding iteraties voor dat punt
+
+> pan via muis werkt niet goed
+> pan via knoppen: tegengestelde richting dan verwachte richting
 
 #### Goede werking, snelheid, bugs (25%)
 
---> Nog niet beoordeeld
-
 ***juiste technieken gebruikt***
 
-- [ ] *Juiste berekening fractaal*
-- [ ] *Zooming & Panning goed verwerkt*
+- [x] *Juiste berekening fractaal*
+- [x] *Zooming & Panning goed verwerkt*
 
 ***Juiste werking***
 
-- [ ] *Goede werking*
+- [x] *Goede werking*
 
 ***Snelheid, efficiëntie, concurrency***
 
-- [ ] *Goed gebruik concurrency*
-- [ ] *Efficiënte berekeningen*
+- [x] *Goed gebruik concurrency*
+- [x] *Efficiënte berekeningen*
 
 ***Bugs***
 
-- [ ] *Geen bugs*
+- [x] *Geen bugs*
 
 #### Installeerbare package voor distributie (10%)
 
---> Nog niet beoordeeld
-
-- [ ] *Installable package beschikbaar in repo*
+- [x] *Installable package beschikbaar in repo*
 
 #### Correct gebruik GIT (10%)
 
---> Nog niet beoordeeld
-
-- [ ] *Gebruik 'atomaire' commits*
-- [ ] *zinvolle commit messages*
+- [x] *Gebruik 'atomaire' commits*
+- [x] *zinvolle commit messages*
 
 #### Rapportering (15%)
 
---> Nog niet beoordeeld
+- [x] *Structuur*
+- [x] *Volledigheid*
+- [x] *Technische diepgang*
+- [x] *Professionele stijl*
 
-- [ ] *Structuur*
-- [ ] *Volledigheid*
-- [ ] *Technische diepgang*
-- [ ] *Professionele stijl*
+> Je documentatie is een oplijsting van de functies in de verschillende bestanden.
+> Bijkomende uitleg over de onderlinge samenhang mss?
+> Kort en bondig, maar to-the-point geformuleerd!
