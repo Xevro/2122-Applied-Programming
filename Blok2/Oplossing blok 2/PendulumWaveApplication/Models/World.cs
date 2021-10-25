@@ -38,7 +38,7 @@ namespace WpfMovingBall.Models
             {
                 AnchorPoint = GetBarPosition(),
                 Angle = -90,
-                Length = 500,
+                Length = 1600,
                 RotationalDelta = 0
             };
         }
@@ -63,14 +63,11 @@ namespace WpfMovingBall.Models
 
         public void MoveObjects()
         {
-            Beam.Angle += Beam.RotationalDelta;
-
-            // just move spheres each by a small random distance
             var newPositions = ImmutableList<Point3D>.Empty;
+
             foreach (var position in SpherePositions)
             {
-                double magnitude = _worldSize / 5;
-                var vector = new Vector3D(magnitude * (_rnd.NextDouble() - 0.5), magnitude * (_rnd.NextDouble() - 0.5), magnitude * (_rnd.NextDouble() - 0.5));
+                var vector = new Vector3D(1.3, 0.1, 0);
                 newPositions = newPositions.Add(position + vector);
             }
             SpherePositions = newPositions;

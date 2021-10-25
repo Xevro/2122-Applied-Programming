@@ -15,23 +15,7 @@ namespace WpfMovingBall.Presentation
         private readonly IWorld _world;
         private readonly ICameraController _cameraController;
 
-        private readonly SolidColorBrush[] _colorBrushList = new SolidColorBrush[]
-     {
-            new SolidColorBrush(Colors.Crimson),
-            new SolidColorBrush(Colors.MediumBlue),
-            new SolidColorBrush(Colors.Green),
-            new SolidColorBrush(Colors.DarkOrange),
-            new SolidColorBrush(Colors.Olive),
-            new SolidColorBrush(Colors.DarkCyan),
-            new SolidColorBrush(Colors.Brown),
-            new SolidColorBrush(Colors.SteelBlue),
-            new SolidColorBrush(Colors.Gold),
-            new SolidColorBrush(Colors.MistyRose),
-            new SolidColorBrush(Colors.PaleTurquoise),
-            new SolidColorBrush(Colors.PeachPuff),
-            new SolidColorBrush(Colors.Salmon),
-            new SolidColorBrush(Colors.Silver),
-     };
+        private readonly SolidColorBrush _colorBrush = new SolidColorBrush(Colors.SteelBlue);
 
         private readonly Model3DGroup _model3dGroup = new();
         private readonly Model3DGroup _sphereGroup = new();
@@ -84,7 +68,7 @@ namespace WpfMovingBall.Presentation
         private void InitBeam()
         {
             if (_beam != null) _model3dGroup.Children.Remove(_beam);
-            var brush = _colorBrushList[^1];
+            var brush = _colorBrush;
             var matGroup = new MaterialGroup();
             matGroup.Children.Add(new DiffuseMaterial(brush));
             matGroup.Children.Add(new SpecularMaterial(brush, 100));
@@ -103,7 +87,7 @@ namespace WpfMovingBall.Presentation
         private void AddSphere()
         {
             _world.AddSphere();
-            var brush = _colorBrushList[_world.SpherePositions.Count % _colorBrushList.Length];
+            var brush = _colorBrush;
             var matGroup = new MaterialGroup();
             matGroup.Children.Add(new DiffuseMaterial(brush));
             matGroup.Children.Add(new SpecularMaterial(brush, 100));
