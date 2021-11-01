@@ -8,4 +8,8 @@ This repository contains 2 projects that I made in my 3th year at Odisee.
 
 You can find the source code under 'Blok 1/Oplossing blok 1' and inside the 'installatie package' is a installable package available with a self signed certificate.
  
+- The second project is a pendulum wave application made with WPF game physics that simulates a wave of balls.
 
+### Solution 2 - Pendulum wave application
+
+You can find the source code under 'Blok 2/Oplossing blok 2' and inside the 'installatie package' is a installable package available with a self signed certificate.
