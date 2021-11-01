@@ -171,7 +171,7 @@ namespace Wpf3DUtils
             Point[] textureCoords = null)
         {
             // Generate the points.
-            var points =MakePolygonPoints(numSides, center, vx, vy);
+            var points = MakePolygonPoints(numSides, center, vx, vy);
 
             // Make the polygon.
             mesh.AddPolygon(points, textureCoords);
@@ -240,7 +240,7 @@ namespace Wpf3DUtils
             // geo.Freeze();
             return geo;
         }
-                
+
         // Add a 3D-line to an existing MeshGeometry3D
         public static void AddLine(this MeshGeometry3D mesh, Point3D start, Point3D end, double thickness)
         {
@@ -299,10 +299,10 @@ namespace Wpf3DUtils
         }
 
         // create a unity sphere around the origin as a GeormetryModel3D 
-        public static GeometryModel3D CreateSphere( MaterialGroup materials, int numTheta = 36, int numPhi = 36 )
+        public static GeometryModel3D CreateSphere(MaterialGroup materials, int numTheta = 36, int numPhi = 36)
         {
             var mesh = new MeshGeometry3D();
-            mesh.AddSphere(new Point3D(0,0,0),1, numTheta,numPhi);
+            mesh.AddSphere(new Point3D(0, 0, 0), 1, numTheta, numPhi);
             var geo = new GeometryModel3D(mesh, materials);
             return geo;
         }
@@ -332,7 +332,8 @@ namespace Wpf3DUtils
                     };
                     // Make the polygon.
                     mesh.AddPolygon(pointDict, points);
-                    phi += dphi;                }
+                    phi += dphi;
+                }
                 theta += dtheta;
             }
         }
@@ -341,7 +342,7 @@ namespace Wpf3DUtils
         public static GeometryModel3D CreateCube(MaterialGroup materials)
         {
             var mesh = new MeshGeometry3D();
-            mesh.AddCube(new Point3D(),1.0,1.0,1.0);
+            mesh.AddCube(new Point3D(), 1.0, 1.0, 1.0);
             var geo = new GeometryModel3D(mesh, materials);
             return geo;
         }

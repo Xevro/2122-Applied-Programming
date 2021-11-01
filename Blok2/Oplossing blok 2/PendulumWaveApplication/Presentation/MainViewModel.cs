@@ -1,16 +1,16 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Wpf3DUtils;
 using WpfMovingBall.Models;
 
 namespace WpfMovingBall.Presentation
 {
-    public class MainViewModel:ObservableObject
+    public class MainViewModel : ObservableObject
     {
         private readonly IWorld _world;
         private readonly ICameraController _cameraController;
@@ -23,7 +23,7 @@ namespace WpfMovingBall.Presentation
         private Model3DGroup _axesGroup;
 
         private bool _showAxes;
-        
+
         public ProjectionCamera Camera => _cameraController.Camera;
         public Model3D Visual3dContent => _model3dGroup;
         public bool? ShowAxes
@@ -94,7 +94,7 @@ namespace WpfMovingBall.Presentation
             var sphere = Models3D.CreateSphere(matGroup);
             var transform = new Transform3DGroup();
             transform.Children.Add(new ScaleTransform3D(20, 20, 20));
-            transform.Children.Add(new TranslateTransform3D(_world.SpherePositions[^1] - _world.Origin)); 
+            transform.Children.Add(new TranslateTransform3D(_world.SpherePositions[^1] - _world.Origin));
             sphere.Transform = transform;
             _sphereGroup.Children.Add(sphere);
             AddSphereCommand.NotifyCanExecuteChanged();
@@ -117,7 +117,6 @@ namespace WpfMovingBall.Presentation
         private void Move()
         {
             _world.MoveObjects();
-            MoveBeam();
             MoveSpheres();
         }
 
@@ -148,7 +147,7 @@ namespace WpfMovingBall.Presentation
         {
             SetupCamera();
             SetUpLights();
-            CreateAxesGroup();            
+            CreateAxesGroup();
             ShowAxes = true;
         }
 

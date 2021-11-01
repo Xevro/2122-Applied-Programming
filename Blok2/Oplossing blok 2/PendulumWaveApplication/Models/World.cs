@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Immutable;
 using System.Windows.Media.Media3D;
 
 namespace WpfMovingBall.Models
@@ -11,7 +6,6 @@ namespace WpfMovingBall.Models
     internal class World : IWorld
     {
         private const int _worldSize = 1000;
-        private readonly Random _rnd = new();
 
         public Point3D Origin => new();
         public (Point3D p1, Point3D p2) Bounds { get; private set; }
@@ -64,10 +58,9 @@ namespace WpfMovingBall.Models
         public void MoveObjects()
         {
             var newPositions = ImmutableList<Point3D>.Empty;
-
             foreach (var position in SpherePositions)
             {
-                var vector = new Vector3D(1.3, 0.1, 0);
+                var vector = new Vector3D(1.9, 0.3, 0);
                 newPositions = newPositions.Add(position + vector);
             }
             SpherePositions = newPositions;

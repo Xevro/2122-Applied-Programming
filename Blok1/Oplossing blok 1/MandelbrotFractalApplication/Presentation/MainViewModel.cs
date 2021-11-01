@@ -84,6 +84,7 @@ namespace MandelbrotFractalApplication.Presentation
                 int[,] mandelbrotDepthValues = await Task.Run(() =>
                     logic.CalculateMandelbrotDepthAsync(zoomScale, xOffset, yOffset, Width, Height, selectedIterations), cancelToken);
                 cancelSource.Cancel();
+
                 uint[,] bitmapPixels = new uint[Width, Height];
 
                 for (int x = 0; x < Height; x++)

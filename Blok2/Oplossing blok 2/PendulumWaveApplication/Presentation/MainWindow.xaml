@@ -10,7 +10,7 @@
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
     </Window.Resources>
-    <DockPanel LastChildFill="True" Background="LightSlateGray" >
+    <DockPanel LastChildFill="True" >
         <DockPanel DockPanel.Dock="Top" >
             <CheckBox Name="AxesCheckBox" DockPanel.Dock="Left"  Margin="10,5,20,10" IsChecked="{Binding ShowAxes, Mode=TwoWay}">
                 Show Axes
@@ -21,8 +21,8 @@
                 <Label Background="Blue" Foreground="Yellow" Height="25" Width="30" HorizontalContentAlignment="Center" >Z</Label>
             </StackPanel>
             <Button DockPanel.Dock="Right" Width="130" HorizontalAlignment="Right"  Margin="15,5,25,5" Command="{Binding ResetCommand}">Reset</Button>
-            <Button DockPanel.Dock="Right" Width="130" HorizontalAlignment="Right"  Margin="15,5" Command="{Binding AddSphereCommand}">Add Sphere</Button>
-            <Button DockPanel.Dock="Right" Width="130" HorizontalAlignment="Right"  Margin="15,5" Command="{Binding MoveCommand}">Move</Button>
+            <Button DockPanel.Dock="Right" Width="130" HorizontalAlignment="Right"  Margin="15,5" Command="{Binding AddSphereCommand}">Voeg bal toe</Button>
+            <Button DockPanel.Dock="Right" Width="130" HorizontalAlignment="Right"  Margin="15,5" Command="{Binding MoveCommand}">Beweeg</Button>
             <StackPanel DockPanel.Dock="Right"  Orientation="Horizontal" HorizontalAlignment="Right"  >
                 <Label  Content="Aantal bollen: " Margin="5" />
                 <TextBlock Width="30" FontWeight="Bold" VerticalAlignment="Center"  Text="{Binding SphereCount}" />

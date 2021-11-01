@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using Wpf3DUtils;
 using System.Windows;
+using Wpf3DUtils;
 using WpfMovingBall.Models;
 using WpfMovingBall.Presentation;
 
