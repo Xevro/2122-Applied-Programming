@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PendulumWaveApplication"
         mc:Ignorable="d"
-        Title="Penulum Wave" Height="800" Width="1200"
+        Title="Pendulum Wave" Height="800" Width="1200"
         PreviewKeyDown="WindowKeyDown" >
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
