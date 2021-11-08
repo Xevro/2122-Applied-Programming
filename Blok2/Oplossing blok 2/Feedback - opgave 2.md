@@ -7,13 +7,12 @@
 
 #### Architectuur (15%)
 
---> Nog niet beoordeeld
 
 ***Modulair, meerlagenmodel***
 
-- [ ] *Meerlagenmodel via mappen of klassebibliotheken*
-- [ ] *Dependency injection*
-- [ ] *Gebruik  MVVM Design pattern*
+- [x] *Meerlagenmodel via mappen of klassebibliotheken*
+- [x] *Dependency injection*
+- [x] *Gebruik  MVVM Design pattern*
 
 ***'Separation of concern'***
 
@@ -21,9 +20,10 @@
 - [ ] *Logische laag onafhankelijk van presentatielaag*
 
 
-#### Programmeerstijl, Kwaliteit van de code (10%)
+Beperkte logica waardoor deel2 nog niet zinvol beoordeeld kan worden
 
---> Nog niet beoordeeld
+
+#### Programmeerstijl, Kwaliteit van de code (10%)
 
 ***Naamgeving***
 
@@ -41,9 +41,10 @@
 - [ ] *Correct gebruik commentaar*
 - [ ] *Algemene programmeerstijl*
 
+Beperkte eigen code waardoor stijl nog niet zinvol beoordeeld kan worden
+
 #### User interface, functionaliteit, UX (15%) 
 
---> Nog niet beoordeeld
 
 ***Ergonomie***
 
@@ -60,9 +61,15 @@
 - [ ] *Instelbare kleurenweergave*
 - [ ] *Start, Pauze, Reset*
 
+Huidige functionaliteit van de toepassing: tonen en bewegen van ballen evenwijdig met Z-as in 3D-vlak.
+Via 'voeg bal toe' knop extra bal toevoegen verder in de Z-as richting
+Via 'beweeg' knop de ballen laten bewegen evenwijdig met de Z-as
+Via 'reset' knop ballen laten verdwijnen
+
+geen lopende simulatie
+
 #### Goede werking, snelheid, bugs (25%)
 
---> Nog niet beoordeeld
 
 ***juiste technieken gebruikt***
 
@@ -84,24 +91,32 @@
 
 - [ ] *Geen bugs*
 
+kan gezien de beperkte functionaliteit niet beoordeeld worden
+
 #### Installeerbare package voor distributie (10%)
 
---> Nog niet beoordeeld
+- [x] *Installable package beschikbaar in repo*
 
-- [ ] *Installable package beschikbaar in repo*
+Package met certificaat voorzien
+geen icoontje
 
 #### Correct gebruik GIT (10%)
-
---> Nog niet beoordeeld
 
 - [ ] *Gebruik 'atomaire' commits*
 - [ ] *zinvolle commit messages*
 
+Weinig zinvolle commits ivm functionaliteit (cf. voorziene functionaliteit)
+
 #### Rapportering (15%)
 
---> Nog niet beoordeeld
 
 - [ ] *Structuur*
 - [ ] *Volledigheid*
 - [ ] *Technische diepgang*
 - [ ] *Professionele stijl*
+
+Markdown document voorzien, beperkte info gezien de beperkte functionaliteit
+Structuur is oplijsting van functies (resp. 3 in World.cs en 3 in MVM.cs)
+Geen toelichting van de geschreven Model-klassen
+Geen toelichting vna de reset methode
+class Sphere is leeg?
